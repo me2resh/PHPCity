@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHPCity - 3D Visualization of PHP Projects</title>
+    <meta name="description" content="Visualize PHP projects as 3D cities using the city metaphor">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+    <div id="app">
+        <div id="container">
+            <div id="info">
+                <h1>PHPCity</h1>
+                <div id="controls">
+                    <label for="project-select">Select Project:</label>
+                    <select id="project-select">
+                        <option value="">Choose a project...</option>
+                    </select>
+                    <input type="file" id="file-input" accept=".json" style="display: none;">
+                    <button id="upload-btn">Upload JSON</button>
+                    <button id="help-btn">Help</button>
+                </div>
+                <div id="legend" style="display: none;">
+                    <h3>Legend</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4ECDC4;"></div>
+                        <span>Classes</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #5C7CFA;"></div>
+                        <span>Interfaces</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FF8E53;"></div>
+                        <span>Abstract Classes</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #845EC2;"></div>
+                        <span>Traits</span>
+                    </div>
+                </div>
+            </div>
+            <div id="three-container"></div>
+
+            <!-- Class Info Panel -->
+            <div id="class-info" class="info-panel" style="display: none;">
+                <h3 id="class-name">Class Name</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Namespace:</span>
+                        <span id="class-namespace">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Type:</span>
+                        <span id="class-type">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Methods:</span>
+                        <span id="class-methods">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Attributes:</span>
+                        <span id="class-attributes">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Lines:</span>
+                        <span id="class-lines">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Extends:</span>
+                        <span id="class-extends">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Implements:</span>
+                        <span id="class-implements">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>PHPCity Help</h2>
+            <div class="help-content">
+                <h3>How to Use</h3>
+                <ul>
+                    <li><strong>Rotate Camera:</strong> Left-click and drag to rotate around the focal point</li>
+                    <li><strong>Move Focal Point:</strong> Middle-click and drag to move what you're looking at</li>
+                    <li><strong>Zoom:</strong> Use mouse wheel to zoom in/out</li>
+                    <li><strong>Hover:</strong> Move mouse over buildings to see class details</li>
+                    <li><strong>Upload:</strong> Click "Upload JSON" to load your own PHP project data</li>
+                    <li><strong>Sample Projects:</strong> Use the dropdown to explore demo projects</li>
+                </ul>
+
+                <h3>City Metaphor</h3>
+                <ul>
+                    <li><strong>Buildings:</strong> Represent classes and interfaces</li>
+                    <li><strong>Height:</strong> Lines of code + number of methods (taller = more complex)</li>
+                    <li><strong>Width:</strong> Number of attributes/properties (wider = more data)</li>
+                    <li><strong>Length:</strong> Lines of code (longer = more code)</li>
+                    <li><strong>Districts:</strong> Represent namespace hierarchy (nested)</li>
+                    <li><strong>Colors:</strong> Different types (class, interface, abstract, trait)</li>
+                </ul>
+
+                <h3>Generating Data</h3>
+                <p>To visualize your own PHP project:</p>
+                <ol>
+                    <li>Use the backend parser in the <code>backend/</code> directory</li>
+                    <li>Run: <code>php parse-project.php /path/to/your/php/project</code></li>
+                    <li>Upload the generated JSON file using the "Upload JSON" button</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

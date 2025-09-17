@@ -11,12 +11,26 @@ function parseNode($ast, $data) {
             $data['namespace'] = $ast->children['name'];
             break;
         case 'AST_CLASS':
-            $data['name']        = $ast->name;
-            $data['extends']     = $ast->children['extends']->children['name'];
-            $data['implements']  = $ast->children['implements']->children[0]->children['name'];
-            $data['no_lines']    = $ast->endLineno - $ast->lineno;
-            $data['no_attrs']    = countType($ast->children['stmts'], 'AST_PROP_DECL');
-            $data['no_methods']  = countType($ast->children['stmts'], 'AST_METHOD');
+            $data['name'] = $ast->children['name'] ?? 'Unknown';
+
+            // Handle extends - check if it exists and get the name
+            $data['extends'] = null;
+            if ($ast->children['extends'] instanceof ast\Node) {
+                $data['extends'] = $ast->children['extends']->children['name'] ?? null;
+            }
+
+            // Handle implements - check if it exists and get the first interface name
+            $data['implements'] = null;
+            if ($ast->children['implements'] instanceof ast\Node && !empty($ast->children['implements']->children)) {
+                $firstInterface = $ast->children['implements']->children[0];
+                if ($firstInterface instanceof ast\Node) {
+                    $data['implements'] = $firstInterface->children['name'] ?? null;
+                }
+            }
+
+            $data['no_lines'] = $ast->endLineno - $ast->lineno;
+            $data['no_attrs'] = countType($ast->children['stmts'], 'AST_PROP_DECL');
+            $data['no_methods'] = countType($ast->children['stmts'], 'AST_METHOD');
 
             $data = determineFlags($ast, $data);
             break;

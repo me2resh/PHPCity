@@ -27,7 +27,7 @@ foreach ($regex as $name => $object) {
         "file"    => preg_replace("/^". preg_quote($baseDir . '\\', '/') . "/", '', $name, 1)
     ];
 
-    $ast = ast\parse_file($name, $version=30);
+    $ast = ast\parse_file($name, $version=120);
 
     // list of nodes in file
     if ($ast instanceof ast\Node) {
